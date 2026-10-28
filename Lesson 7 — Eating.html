@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lesson 7 — Eating</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eaf6dc;--bg2:#cfe8b0;--card:#fffdf4;--tx:#243018;--mut:#5f6f4d;--hl:#c2410c;--acc:#f97316;--line:#b9d49a;--ok:#2f9e44;--bad:#d6336c}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1f0d;--bg2:#1b4d1b;--card:#14200f;--tx:#f3f0dc;--mut:#b7c4a0;--hl:#ffd23f;--acc:#ff8a3d;--line:#3d6b2e}}
+:root[data-theme="dark"]{--bg:#0d1f0d;--bg2:#1b4d1b;--card:#14200f;--tx:#f3f0dc;--mut:#b7c4a0;--hl:#ffd23f;--acc:#ff8a3d;--line:#3d6b2e}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;font:18px/1.75 Georgia,"Times New Roman",serif;color:var(--tx);background:radial-gradient(circle at 20% 0,var(--bg2),var(--bg) 60%);background-color:var(--bg);overflow-x:hidden}
+h1{margin:.4em 0 0;text-align:center;font-size:clamp(1.8rem,5vw,2.8rem)}
+.sub{text-align:center;color:var(--mut);margin:0 0 10px;font-size:.95rem}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg)}
+nav button{font:600 .95rem system-ui,sans-serif;padding:10px 18px;border-radius:30px;border:1px solid var(--line);background:var(--card);color:var(--tx);cursor:pointer;transition:.2s}
+nav button:hover{transform:translateY(-2px)}
+nav button.on{background:var(--acc);color:#fff;border-color:var(--acc);box-shadow:0 4px 0 #c2410c}
+main{max-width:820px;margin:0 auto;padding:10px 16px 60px;position:relative;z-index:2}
+section{display:none;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 22px;animation:in .4s}
+section.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+.t{color:var(--hl);font-weight:700;border-bottom:2px dashed var(--hl);cursor:pointer;padding:0 2px;border-radius:4px;transition:.2s}
+.t:hover{background:color-mix(in srgb,var(--hl) 20%,transparent)}
+.t.f{border-bottom-style:solid;opacity:.75}
+.t::after{content:"💡";font-size:.7em;margin-left:2px}
+.gl{font-style:italic;color:var(--mut)}
+.cnt{font:600 .9rem system-ui;color:var(--mut)}
+#pop{position:fixed;left:50%;bottom:20px;transform:translate(-50%,150%);width:min(92vw,520px);background:var(--card);color:var(--tx);border:2px solid var(--acc);border-radius:16px;padding:14px 18px;z-index:20;transition:.3s;box-shadow:0 10px 30px #0006;font-size:1rem;line-height:1.5}
+#pop.on{transform:translate(-50%,0)}
+#pop b{color:var(--hl);font-size:1.2rem}
+.card{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0;font-size:1rem;line-height:1.5}
+.card b{color:var(--hl)}
+.opt,.mt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--tx);font:inherit;font-size:1rem;cursor:pointer;transition:.15s}
+.opt:hover,.mt:hover{border-color:var(--acc)}
+.ok{background:color-mix(in srgb,var(--ok) 30%,transparent)!important;border-color:var(--ok)!important}
+.no{background:color-mix(in srgb,var(--bad) 30%,transparent)!important;border-color:var(--bad)!important;animation:sh .3s}
+.sel{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 20%,transparent)}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{font:700 1rem system-ui;padding:10px 20px;border:0;border-radius:30px;background:var(--acc);color:#fff;cursor:pointer;box-shadow:0 4px 0 #c2410c;margin:6px 6px 6px 0}
+.btn:active{transform:translateY(3px);box-shadow:none}
+.timer{font:800 2.6rem system-ui;text-align:center;color:var(--hl)}
+a.btn{display:inline-block;text-decoration:none}
+.media{border:2px dashed var(--acc);border-radius:16px;padding:16px;margin:12px 0;text-align:center;background:color-mix(in srgb,var(--acc) 8%,transparent)}
+.media .film{font-size:3.5rem;animation:bob 2s infinite}
+h2{margin:.2em 0 .4em;font-size:1.5rem}h3{color:var(--hl);margin:1em 0 .3em}
+label{display:block;font-size:1rem;margin:4px 0}
+.fl{position:fixed;top:-60px;z-index:1;pointer-events:none;animation:fall linear infinite;opacity:.7}
+@keyframes fall{to{transform:translateY(115vh) rotate(360deg)}}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-6deg)}}
+.bg{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-top:10px}.bub{text-align:center}.bub.open{grid-column:1/-1}
+.bb{font:700 1rem system-ui;width:100%;padding:18px 6px;border-radius:50px;border:2px solid var(--acc);background:radial-gradient(circle at 30% 25%,#fff8,transparent 40%),color-mix(in srgb,var(--acc) 25%,var(--card));color:var(--tx);cursor:pointer;animation:bob 3s ease-in-out infinite}
+.bub:nth-child(3n) .bb{animation-delay:-1s}.bub:nth-child(3n+1) .bb{animation-delay:-2s}.bub.dn2 .bb{background:var(--ok);color:#fff;border-color:var(--ok)}
+.qa{text-align:left;border:1px solid var(--line);border-radius:14px;padding:6px 16px;margin-top:8px;font-size:1.05rem;animation:in .3s}
+.ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tmv{font:800 1.6rem system-ui;color:var(--hl);min-width:70px}.ok2{background:var(--ok);box-shadow:0 4px 0 #1f6f31}
+.chip{display:inline-block!important;width:auto!important;margin:4px 6px 4px 0!important}input.in{font:inherit;padding:8px 12px;border-radius:10px;border:2px solid var(--line);background:transparent;color:var(--tx);width:100%;margin:6px 0}
+@media(max-width:560px){body{font-size:16px}.cols{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<div id="fl"></div>
+<h1>🍽️ Lesson 7 — Eating</h1>
+<p class="sub">Food collocations · tap the glowing phrases · speak with confidence</p>
+<nav id="nav"></nav>
+<main>
+<section id="story"><h2>📖 Story: “My Mother’s Kitchen Revolution”</h2>
+<p class="cnt">Found <span id="found">0</span> / <span id="tot">0</span> phrases</p><div id="st"></div></section>
+<section id="glossary"><h2>📚 Glossary</h2><div id="gl"></div></section>
+<section id="quiz"><h2>📝 Quiz</h2><div id="qz"></div></section>
+<section id="game"><h2>🎮 Word Games (7 challenges)</h2><h3>Game 1 · Match it</h3><p class="cnt">Tap a phrase, then its meaning. <span id="gs"></span></p><div class="cols" id="gm"></div><button class="btn" onclick="newGame()">🔄 New round</button><h3>Games 2–7 · Speak &amp; use the words</h3><p class="cnt">Pick a game. Tick every target phrase as you use it, then press Success.</p><div id="gpick"></div><div id="gch"></div></section>
+<section id="p1"><h2>🫧 Part 1 · 30 bubbles</h2><p class="cnt">Pop a bubble, press ▶ Start (30 sec), answer, then ✔ Success.</p><div id="p1c"></div></section>
+<section id="p2"><h2>🎤 Part 2 · Cue cards</h2><p class="cnt">Prepare 1 minute, then speak up to 2 minutes. Timer: 2:00.</p><div id="p2c"></div></section>
+<section id="p3"><h2>💬 Part 3 · Hard discussion</h2><p class="cnt">Develop your answer: opinion, reason, example, contrast. Timer: 1:00.</p><div id="p3c"></div></section>
+<section id="hw"><h2>📝 Homework</h2>
+<h3>🎬 Part A · Media: watch &amp; speak</h3>
+<div class="media"><div class="film">🍿🎬</div>
+<p>Watch this movie about food and eating habits, then <b>tell me about it for 3 minutes straight</b>.</p>
+<a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=M_Hhtu0m0ck&amp;t=1801s">▶ Watch on YouTube</a></div>
+<div class="card"><b>Structure your 3 minutes</b><br>⏱ 0:00–0:30 · What is the movie about? Who is in it?<br>⏱ 0:30–1:30 · Main events (use past tenses)<br>⏱ 1:30–2:30 · What did it say about eating habits? Link it to the lesson.<br>⏱ 2:30–3:00 · Your opinion: would you recommend it? Why?</div>
+<div class="card"><b>Try to use at least 8 of these:</b><br>eating habits · balanced diet · junk food · processed foods · food additives · eat in moderation · portion sizes · fresh produce · go on a diet · healthy appetite · food poisoning · international cuisine</div>
+<div class="timer" id="tm">3:00</div>
+<div style="text-align:center"><button class="btn" onclick="tStart()">▶ Start</button><button class="btn" onclick="tReset()">↺ Reset</button></div>
+<p class="cnt" style="text-align:center">Record yourself and send it to me. Don’t stop talking until the timer hits 0!</p>
+<h3>✅ Self-check</h3>
+<label><input type="checkbox"> I spoke for the full 3 minutes</label>
+<label><input type="checkbox"> I used 8+ food collocations</label>
+<label><input type="checkbox"> I gave my own opinion</label>
+<label><input type="checkbox"> I recorded and sent it</label>
+<h3>💬 Part B · Discussion</h3>
+<div class="card">1. How have your eating habits changed in the last five years?</div>
+<div class="card">2. Is organic food worth the extra money? Why or why not?</div>
+<div class="card">3. Why do people eat so much junk food nowadays?</div>
+<div class="card">4. Describe a time you had a really memorable meal.</div>
+<div class="card">5. Should governments tax processed foods? Explain.</div>
+</section>
+</main>
+<div id="pop"></div>
+<script>
+const D={
+"eating habits":["the things you regularly eat and how you eat","Her eating habits are much healthier now."],
+"junk food":["food that is not nutritious/healthy","Burgers and chips are junk food."],
+"go on a diet":["eat less and healthier food to lose weight","He went on a diet before the wedding."],
+"processed foods":["foods changed or packaged in factories","Processed foods often contain a lot of salt."],
+"food additives":["chemicals added to food","Some food additives make sweets look brighter."],
+"balanced diet":["eating the right amounts of different foods","A balanced diet includes protein and vegetables."],
+"nourishing meals":["meals that are healthy and nutritious","Soup is a cheap, nourishing meal."],
+"organic food":["food grown without artificial chemicals","Organic food is usually more expensive."],
+"fresh produce":["fresh fruits and vegetables","The market sells fresh produce every morning."],
+"quick snack":["something small and fast to eat","I grabbed a quick snack between classes."],
+"eat in moderation":["eat without having too much","You can eat chocolate in moderation."],
+"portion sizes":["how much food you take","Restaurant portion sizes are huge."],
+"home-cooked meal":["a meal made at home, not bought","Nothing beats a home-cooked meal."],
+"hearty stew":["a thick soup with lots of flavors and ingredients","We had a hearty stew after skiing."],
+"healthy appetite":["the capacity to eat a lot","Boys with a healthy appetite empty the fridge."],
+"second helping":["a second portion","Can I have a second helping of rice?"],
+"international cuisine":["food from different countries","She loves trying international cuisine."],
+"food poisoning":["getting sick because of contaminated food","Undercooked chicken can cause food poisoning."],
+"light meals":["small meals","I prefer light meals at lunchtime."],
+"spoil your appetite":["eat earlier so you’re not hungry for a meal later","Don’t eat sweets; you’ll spoil your appetite."]
+};
+const S=`My mother radically changed her [eating habits] a few years ago. In the past, she ate a lot of [junk food] <i class="gl">(food that is not nutritious/healthy)</i> and was overweight. Sometimes she would try to [go on a diet] <i class="gl">(eat less food and healthier food)</i>, but it would never last. But now she understands how unhealthy [processed foods] are — they’re full of [food additives] <i class="gl">(chemicals added to food)</i> that contribute to weight gain and heart problems.</p><p>Nowadays, she eats a [balanced diet] including a lot of [nourishing meals] <i class="gl">(meals that are healthy and nutritious)</i> that she prepares herself. She doesn’t buy [organic food] because she thinks the prices are outrageous, but she stocks up on [fresh produce] <i class="gl">(fresh fruits and vegetables)</i> so that she can grab an apple or some veggies when she wants a [quick snack] <i class="gl">(something small and fast to eat)</i>. She has also learned to [eat in moderation] and watch her [portion sizes] <i class="gl">(how much food you take)</i>.</p><p>I often stop by her house when I’m in the mood for a [home-cooked meal]. The other day she made a [hearty stew] <i class="gl">(a thick soup with lots of flavors and ingredients)</i> that was full of beans and vegetables. My brother, who has a [healthy appetite] <i class="gl">(the capacity to eat a lot)</i>, had a [second helping] <i class="gl">(a second portion)</i> — but I found the stew so filling that I could barely finish my bowl.</p><p>My mother recently told me that she’d like to try some [international cuisine]. I was surprised to hear that, because a few years ago she had a bad experience after getting [food poisoning] <i class="gl">(when you get sick because of contaminated food)</i> at a Japanese restaurant. So tomorrow I’m taking her to a Brazilian steakhouse. I told her to eat [light meals] <i class="gl">(small meals)</i> during the day so that she doesn’t [spoil your appetite] for dinner <i class="gl">(“spoiling your appetite” means eating food earlier, and then not being hungry for a meal later)</i>.`;
+const $=id=>document.getElementById(id),keys=Object.keys(D),seen=new Set();
+$("st").innerHTML="<p>"+S.replace(/\[([^\]]+)\]/g,(m,k)=>`<span class="t" data-k="${k}">${k==="spoil your appetite"?"spoil your appetite":k}</span>`)+"</p>";
+$("tot").textContent=keys.length;
+let pt;
+$("st").onclick=e=>{const t=e.target.closest(".t");if(!t)return;const k=t.dataset.k,d=D[k];t.classList.add("f");seen.add(k);$("found").textContent=seen.size;
+$("pop").innerHTML=`<b>${k}</b> 🔊<br>${d[0]}<br><i>“${d[1]}”</i>`;$("pop").classList.add("on");
+try{speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(k))}catch(_){}
+clearTimeout(pt);pt=setTimeout(()=>$("pop").classList.remove("on"),5000)};
+$("pop").onclick=()=>$("pop").classList.remove("on");
+$("gl").innerHTML=keys.map(k=>`<div class="card"><b>${k}</b> — ${D[k][0]}<br><i class="gl">${D[k][1]}</i></div>`).join("");
+// nav
+const tabs=[["story","📖 Story"],["glossary","📚 Glossary"],["quiz","📝 Quiz"],["game","🎮 Word Games"],["p1","🫧 Part 1"],["p2","🎤 Part 2"],["p3","💬 Part 3"],["hw","🎬 Homework"]];
+$("nav").innerHTML=tabs.map(t=>`<button data-t="${t[0]}">${t[1]}</button>`).join("");
+function show(id){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===id));scrollTo(0,0)}
+$("nav").onclick=e=>{const b=e.target.closest("button");if(b)show(b.dataset.t)};show("story");
+// quiz
+const sh=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+let qi=0,sc=0,Q=[];
+function newQuiz(){Q=sh(keys).slice(0,6);qi=0;sc=0;nq()}
+function nq(){if(qi>=Q.length){$("qz").innerHTML=`<div class="timer">${sc} / ${Q.length} 🏆</div><button class="btn" onclick="newQuiz()">Try again</button>`;return}
+const k=Q[qi],o=sh([k,...sh(keys.filter(x=>x!==k)).slice(0,3)]);
+$("qz").innerHTML=`<p class="cnt">Question ${qi+1} / ${Q.length}</p><p>Which phrase means: <b>${D[k][0]}</b>?</p>`+o.map(x=>`<button class="opt" data-o="${x}">${x}</button>`).join("");
+$("qz").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{const r=b.dataset.o===k;b.classList.add(r?"ok":"no");if(r)sc++;$("qz").querySelectorAll(".opt").forEach(x=>{x.onclick=null;if(x.dataset.o===k)x.classList.add("ok")});setTimeout(()=>{qi++;nq()},900)})}
+newQuiz();
+// game
+let gp=null,done=0;
+function newGame(){const p=sh(keys).slice(0,6);done=0;gp=null;$("gs").textContent="";
+$("gm").innerHTML="<div>"+sh(p).map(k=>`<button class="mt" data-k="${k}" data-s="a">${k}</button>`).join("")+"</div><div>"+sh(p).map(k=>`<button class="mt" data-k="${k}" data-s="b">${D[k][0]}</button>`).join("")+"</div>"}
+$("gm").onclick=e=>{const b=e.target.closest(".mt");if(!b||b.classList.contains("ok"))return;
+if(!gp){gp=b;b.classList.add("sel");return}
+if(gp===b){b.classList.remove("sel");gp=null;return}
+if(gp.dataset.s===b.dataset.s){gp.classList.remove("sel");gp=b;b.classList.add("sel");return}
+if(gp.dataset.k===b.dataset.k){gp.className=b.className="mt ok";done++;if(done===6)$("gs").textContent="🎉 Perfect!"}
+else{const g=gp;b.classList.add("no");g.classList.remove("sel");setTimeout(()=>b.classList.remove("no"),400)}gp=null};
+newGame();
+// timer
+let ti,left=180;
+function draw(){$("tm").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0")}
+function tStart(){clearInterval(ti);ti=setInterval(()=>{left--;draw();if(left<=0){clearInterval(ti);$("tm").textContent="🎉 Time!"}},1000)}
+function tReset(){clearInterval(ti);left=180;draw()}
+// shared timer + items
+const CT='<div class="ctl"><span class="tmv"></span><button class="btn st">▶ Start</button><button class="btn ok2 sx">✔ Success</button></div>';
+function tmr(b,s){const d=b.querySelector(".tmv"),st=b.querySelector(".st");let l=s,i;const f=()=>d.textContent=Math.floor(l/60)+":"+String(l%60).padStart(2,"0");f();st.onclick=()=>{clearInterval(i);l=s;f();i=setInterval(()=>{l--;f();if(l<=0){clearInterval(i);d.textContent="⏰ Time!"}},1000);st.textContent="↺ Restart"};b.stop=()=>clearInterval(i)}
+function items(id,arr,secs,pre){const c=$(id);let n=0;c.innerHTML=`<p class="cnt">Done: <span class="dn">0</span> / ${arr.length}</p><div class="bg"></div>`;const g=c.querySelector(".bg");
+arr.forEach((q,i)=>{const d=document.createElement("div");d.className="bub";d.innerHTML=`<button class="bb">${pre} ${i+1}</button><div class="qa" hidden><p>${q}</p>${CT}</div>`;g.appendChild(d);const qa=d.querySelector(".qa");tmr(qa,secs);
+d.querySelector(".bb").onclick=()=>{qa.hidden=!qa.hidden;d.classList.toggle("open",!qa.hidden)};
+qa.querySelector(".sx").onclick=()=>{if(d.classList.contains("dn2"))return;qa.stop();d.classList.add("dn2");qa.querySelector(".tmv").textContent="✅";c.querySelector(".dn").textContent=++n}})}
+const P1=["Do you enjoy cooking? Why or why not?","What did you eat for breakfast today?","What is your favourite food?","Is there any food you really dislike?","Do you usually eat at home or in restaurants?","Who cooks most often in your family?","How often do you eat fast food?","Do you prefer sweet or savoury food?","Have you changed your eating habits recently?","What is a typical meal in your country?","Do you like trying food from other countries?","Do you eat healthily? Why or why not?","What time do you usually have dinner?","Do you ever skip meals?","Do you like eating alone or with other people?","What snacks do you usually eat?","Did you enjoy the food you ate as a child?","Is it easy to find healthy food where you live?","Do you read food labels before buying things?","Have you ever learned to cook something new?","Do you prefer fresh or frozen food?","What is the most unusual thing you have eaten?","Do you drink much water or tea with meals?","Are there any foods that are famous in your hometown?","Do you eat differently on weekends?","Do you think breakfast is the most important meal?","How do you feel about organic food?","Do you often order food online?","Have you ever had food poisoning?","Would you like to be a chef one day? Why?"];
+const P2=["Describe a meal you really enjoyed.<br><i>You should say: where you had it · who you were with · what you ate · and explain why it was so enjoyable.</i>","Describe a healthy food you eat regularly.<br><i>You should say: what it is · how often you eat it · how it is prepared · and explain why you think it is healthy.</i>","Describe a restaurant you would recommend.<br><i>You should say: where it is · what kind of food it serves · what you usually order · and explain why you recommend it.</i>","Describe a time you cooked for other people.<br><i>You should say: who you cooked for · what you made · how it went · and explain how you felt about it.</i>","Describe a traditional dish from your country.<br><i>You should say: what it is · what it is made of · when people eat it · and explain why it is special.</i>","Describe a time when you ate something unusual or new.<br><i>You should say: what it was · where you tried it · what it tasted like · and explain how you felt about it.</i>"];
+const P3=["Why do many people nowadays prefer processed food to home cooking?","Should governments tax unhealthy food like they tax cigarettes? Why?","To what extent are eating habits shaped by family and culture?","Is it realistic to expect everyone to eat a balanced diet?","How has the rise of delivery apps changed the way people eat?","Do you think fast food companies should be allowed to advertise to children?","Why is obesity becoming such a serious problem in many countries?","Is organic food really better, or is it just marketing?","Should schools be responsible for teaching children how to cook?","Will traditional cuisines disappear because of globalisation?","Do you think eating out is more of a social activity than a necessity?","Is it ethical to eat meat? Should people eat less of it?","Why do some people go on diets that never last?","How can food waste be reduced in modern society?","In the future, will people still cook at home or will technology replace it?"];
+items("p1c",P1,30,"🫧");items("p2c",P2,120,"🎤 Card");items("p3c",P3,60,"💬 Q");
+// speaking games
+function chal(c){const b=$("gch");b.innerHTML=`<div class="card"><b>${c.t}</b><p>${c.q}</p><div>${c.p.map(x=>`<button class="mt chip">${x}</button>`).join("")}</div>${CT}</div>`;const bx=b.querySelector(".card");tmr(bx,c.s);
+bx.querySelectorAll(".chip").forEach(x=>x.onclick=()=>x.classList.toggle("ok"));
+bx.querySelector(".sx").onclick=()=>{const all=[...bx.querySelectorAll(".chip")].every(x=>x.classList.contains("ok"));if(!all){bx.querySelector(".tmv").textContent="Use ALL phrases! 😉";return}bx.stop();bx.querySelector(".tmv").textContent="🏆 Success!"}}
+const pick=(a,n)=>sh(a).slice(0,n),one=a=>sh(a)[0];
+const GAMES={
+"🎰 Roulette":()=>chal({t:"🎰 Word Roulette",q:"Talk for 45 seconds about <b>your own food life</b> and use ALL 3 phrases.",p:pick(keys,3),s:45}),
+"⚔️ Debate Duel":()=>chal({t:"⚔️ Debate Duel",q:"Argue FOR or AGAINST: <i>“"+one(["Fast food should be banned near schools.","Cooking at home is a waste of time.","Organic food is just a marketing trick.","Everyone should go vegetarian."])+"”</i> Use all 3 phrases.",p:pick(keys,3),s:60}),
+"🍝 Role-play":()=>chal({t:"🍝 Role-play",q:"Act it out aloud: <i>"+one(["You are a customer complaining about a bad meal.","You are a doctor advising a patient about their diet.","You are a waiter recommending dishes to a tourist.","You are phoning a friend to plan a dinner party."])+"</i> Use all 4 phrases.",p:pick(keys,4),s:60}),
+"📖 Story Chain":()=>chal({t:"📖 Story Chain",q:"Continue: <i>“Last weekend I tried a new restaurant and…”</i> Tell a story with a beginning, a problem and an ending. Use all 4 phrases.",p:pick(keys,4),s:90}),
+"🧩 Gap Fill":()=>{const k=one(keys.filter(k=>new RegExp(k,"i").test(D[k][1]))),s=D[k][1].replace(new RegExp(k,"i"),"_____");$("gch").innerHTML=`<div class="card"><b>🧩 Gap Fill</b><p>“${s}”</p>`+sh([k,...pick(keys.filter(x=>x!==k),3)]).map(x=>`<button class="opt" data-o="${x}">${x}</button>`).join("")+"</div>";
+$("gch").querySelectorAll(".opt").forEach(o=>o.onclick=()=>{if(o.dataset.o===k)chal({t:"✔ Correct! Now use it",q:`Say <b>3 NEW sentences</b> with “${k}” about your life.`,p:[k],s:30});else o.classList.add("no")})},
+"🔤 Unscramble":()=>{const k=one(keys),w=k.split(" ").map(x=>[...x].sort(()=>Math.random()-.5).join("")).join(" ");$("gch").innerHTML=`<div class="card"><b>🔤 Unscramble</b><p class="timer">${w}</p><p class="cnt">Hint: ${D[k][0]}</p><input class="in" placeholder="Type the phrase…"><button class="btn">Check</button></div>`;
+$("gch").querySelector("button").onclick=()=>{const v=$("gch").querySelector("input").value.trim().toLowerCase();if(v===k)chal({t:"✔ Correct! Now use it",q:`Say <b>3 NEW sentences</b> with “${k}”.`,p:[k],s:30});else $("gch").querySelector("input").classList.add("no")}}};
+$("gpick").innerHTML=Object.keys(GAMES).map(g=>`<button class="btn" data-g="${g}">${g}</button>`).join("");
+$("gpick").onclick=e=>{const b=e.target.closest("button");if(b)GAMES[b.dataset.g]()};
+// falling food
+const em=["🍎","🥕","🍕","🍩","🥑","🍇","🍪","🍣","🥦","🍓","🌽","🍔"];
+$("fl").innerHTML=Array.from({length:14},()=>`<span class="fl" style="left:${Math.random()*96}vw;font-size:${20+Math.random()*22}px;animation-duration:${10+Math.random()*12}s;animation-delay:-${Math.random()*20}s">${em[Math.random()*em.length|0]}</span>`).join("");
+</script></body></html>
